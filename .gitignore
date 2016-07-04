@@ -3,3 +3,7 @@
 ################################################################################
 
 /Site/bin/Debug/netcoreapp1.0
+/Site/obj/Debug/netcoreapp1.0
+/Site/Site.xproj.user
+/.vs/HomeControl/v14/.suo
+/.vs
