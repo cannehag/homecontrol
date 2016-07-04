@@ -1,21 +1,8 @@
 <template>
-  <require from="./nav-bar/nav-bar"></require>
-  
-  <div class="container-fluid">
-    <compose view-model="nav-bar/nav-bar"></compose>
-    
+   <require from="./nav-bar/nav-bar"></require>
 
-    <!--<h1>${message}</h1>-->
-    
-    <!--<button click.delegate="logout()" if.bind="isAuthenticated">Log Out</button>-->
-    <!--<hr>-->
-    <!--<button click.delegate="getSecretThing()" if.bind="isAuthenticated">Get Secret Thing</button>-->
-    <!--<h3>${secretThing}</h3>-->
-    <!--<button click.delegate="getDecodedJwt()" if.bind="isAuthenticated">Get Decoded JWT</button>
-    <pre if.bind="isAuthenticated">${decodedJwt}</pre>-->
-    <!--<hr>-->
-    <!--<a href="#/public-route">Public Route</a>
-    <a href="#/private-route" if.bind="isAuthenticated">Private Route</a>-->
-    <router-view></router-view>
-  </div>
+   <compose view-model="nav-bar/nav-bar"></compose>
+   <div class="container-fluid">
+      <router-view></router-view>
+   </div>
 </template>
