@@ -1,0 +1,24 @@
+<template>
+   <require from="../loading/loading"></require>
+   <div class="alert alert-sm" class.bind="portState=='open' ? 'alert-danger' : 'alert-success'" click.delegate="refreshState()" style="cursor: pointer">
+      <div class="row">
+         <div class="col-sm-12">
+            <div class="pull-left" if.bind="loading">
+               <loading></loading>
+            </div>
+
+            <h3 style="margin-top: 0; margin-bottom: 0; margin-left: 40px;">
+               <span if.bind="loading">Hämtar...</span>
+               <span if.bind="portState=='open' && !loading">Garageporten är öppen</span>
+               <span if.bind="portState=='closed' && !loading">Garageporten är stängd</span>
+            </h3>
+         </div>
+      </div>
+   </div>
+
+   <div style="text-align: center">
+      <button class="btn btn-info btn-lg" click.delegate="togglePort()">
+         Starta port
+      </button>
+   </div>
+</template>

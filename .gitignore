@@ -2,8 +2,13 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/Site/bin/Debug/netcoreapp1.0
-/Site/obj/Debug/netcoreapp1.0
+/Site/bin
+/Site/obj
 /Site/Site.xproj.user
 /.vs/HomeControl/v14/.suo
 /.vs
+/Site/wwwroot/jspm_packages
+/Site/wwwroot/node_modules
+/Site/config/secrets.json
+/Site/node_modules
+/Site/Properties/PublishProfiles
