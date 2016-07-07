@@ -85,16 +85,16 @@ namespace Site
          app.UseDefaultFiles();
          app.UseStaticFiles(new StaticFileOptions
          {
-            OnPrepareResponse = context =>
-            {
-               //    if (!context.Context.Request.Path.ToString().EndsWith(".html"))
-               //    {
-               // Disable caching of all static files.
-               context.Context.Response.Headers["Cache-Control"] = "no-cache, no-store";
-               context.Context.Response.Headers["Pragma"] = "no-cache";
-               context.Context.Response.Headers["Expires"] = "-1";
-               //    }
-            }
+            //OnPrepareResponse = context =>
+            //{
+            //   //    if (!context.Context.Request.Path.ToString().EndsWith(".html"))
+            //   //    {
+            //   // Disable caching of all static files.
+            //   context.Context.Response.Headers["Cache-Control"] = "no-cache, no-store";
+            //   context.Context.Response.Headers["Pragma"] = "no-cache";
+            //   context.Context.Response.Headers["Expires"] = "-1";
+            //   //    }
+            //}
          });
       }
    }
