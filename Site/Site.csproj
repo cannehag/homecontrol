@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="echo &quot;cd ..\App&quot; &amp;&amp;^&#xD;&#xA;cd ..\App &amp;&amp;^&#xD;&#xA;echo &quot;building App&quot; &amp;&amp;^&#xD;&#xA;ng build --output-path=$(ProjectDir)wwwroot --aot=true -prod --environment=prod &amp;&amp;^" />
+    <Exec Command="echo &quot;cd ..\App&quot; &amp;&amp;^&#xD;&#xA;cd ..\App &amp;&amp;^&#xD;&#xA;npm install&#xD;&#xA;echo &quot;building App&quot; &amp;&amp;^&#xD;&#xA;ng build --output-path=$(ProjectDir)wwwroot --aot=true -prod --environment=prod &amp;&amp;^" />
   </Target>
 
 </Project>
