@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -81,21 +78,10 @@ namespace Site
 
          app.UseMvc();
 
-         
+
          app.UseDefaultFiles();
-         app.UseStaticFiles(new StaticFileOptions
-         {
-            //OnPrepareResponse = context =>
-            //{
-            //   //    if (!context.Context.Request.Path.ToString().EndsWith(".html"))
-            //   //    {
-            //   // Disable caching of all static files.
-            //   context.Context.Response.Headers["Cache-Control"] = "no-cache, no-store";
-            //   context.Context.Response.Headers["Pragma"] = "no-cache";
-            //   context.Context.Response.Headers["Expires"] = "-1";
-            //   //    }
-            //}
-         });
+
+         app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new[] { "index.html" } });
       }
    }
 

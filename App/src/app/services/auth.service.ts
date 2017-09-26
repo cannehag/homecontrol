@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { JwtHelper } from 'angular2-jwt';
 import * as auth0 from 'auth0-js';
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
     domain: 'cannehag.eu.auth0.com',
     responseType: 'token id_token',
     audience: 'https://cannehag.eu.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/callback',
+    redirectUri: environment.authCallback,
     scope: 'openid'
   });
 
