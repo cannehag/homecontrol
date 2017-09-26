@@ -24,25 +24,27 @@ namespace Site.Controllers
       }
 
       [HttpGet, Route("status")]
-      public async Task<string> Status()
+      public Task<string> Status()
       {
-         var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
-         var result = await
-            client.GetAsync($"https://api.particle.io/v1/devices/{_conf.Value.DeviceId}/portState?access_token={_conf.Value.AccessToken}");
+      //    var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+      //    var result = await
+      //       client.GetAsync($"https://api.particle.io/v1/devices/{_conf.Value.DeviceId}/portState?access_token={_conf.Value.AccessToken}");
 
-         var res = await result.Content.ReadAsAsync<FunctionCallResult>();
+      //    var res = await result.Content.ReadAsAsync<FunctionCallResult>();
 
-         return (res.Result == "open" ? State.Open : State.Closed).ToString().ToLower();
+      //    return (res.Result == "open" ? State.Open : State.Closed).ToString().ToLower();
+      return Task.FromResult(State.Closed.ToString().ToLower());
       }
 
       [HttpPut, Route("toggle")]
-      public async Task GetTogglePort()
+      public Task TogglePort()
       {
-         var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+      //    var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
 
-         var arg = new KeyValuePair<string, string>("args", "togglePort");
-         var result = await
-            client.PostAsync($"https://api.particle.io/v1/devices/{_conf.Value.DeviceId}/functions?access_token={_conf.Value.AccessToken}", new FormUrlEncodedContent(new[] { arg }));
+      //    var arg = new KeyValuePair<string, string>("args", "togglePort");
+      //    var result = await
+      //       client.PostAsync($"https://api.particle.io/v1/devices/{_conf.Value.DeviceId}/functions?access_token={_conf.Value.AccessToken}", new FormUrlEncodedContent(new[] { arg }));
+      return Task.CompletedTask;
       }
    }
    
