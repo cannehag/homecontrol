@@ -21,7 +21,7 @@ namespace Site
              .SetBasePath(env.ContentRootPath)
              .AddJsonFile("config/appsettings.json", optional: true, reloadOnChange: true)
              .AddJsonFile("config/auth0-config.json")
-             .AddJsonFile("secrets.json", optional: true, reloadOnChange: true)
+             .AddJsonFile("config/secrets.json", optional: true, reloadOnChange: true)
              .AddEnvironmentVariables();
          Configuration = builder.Build();
       }

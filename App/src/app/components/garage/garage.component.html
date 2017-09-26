@@ -1,0 +1,21 @@
+<div class="alert alert-sm" [ngClass]="portState=='open' ? 'alert-danger' : 'alert-success'" (click)="refresh()" style="cursor: pointer">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="pull-left" *ngIf="loading">
+        <hc-loading></hc-loading>
+      </div>
+
+      <h3 style="margin-top: 0; margin-bottom: 0; margin-left: 40px;">
+        <span *ngIf="loading">Hämtar...</span>
+        <span *ngIf="portState=='open' && !loading">Garageporten är öppen</span>
+        <span *ngIf="portState=='closed' && !loading">Garageporten är stängd</span>
+      </h3>
+    </div>
+  </div>
+</div>
+
+<div style="text-align: center;margin-top:60px">
+  <button class="btn btn-info btn-lg col-sm-12" (click)="togglePort()">
+      Öppna/stäng port
+   </button>
+</div>
