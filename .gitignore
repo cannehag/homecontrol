@@ -6,7 +6,7 @@
 /Site/obj
 /Site/Site.csproj.user
 /Site/node_modules
-/Site/wwwroot/node_modules
+/Site/wwwroot
 /.vs/HomeControl/v14/.suo
 /.vs
 /Site/config/secrets.json
