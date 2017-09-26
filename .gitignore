@@ -5,6 +5,8 @@
 /Site/bin
 /Site/obj
 /Site/Site.xproj.user
+/Site/node_modules
+/Site/wwwroot/node_modules
 /.vs/HomeControl/v14/.suo
 /.vs
 /Site/config/secrets.json
