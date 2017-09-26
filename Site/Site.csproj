@@ -8,10 +8,14 @@
     <PackageId>Site</PackageId>
     <RuntimeFrameworkVersion>1.0.4</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
+     <GeneratedItemPatterns>wwwroot/**</GeneratedItemPatterns>
+     <DefaultItemExcludes>$(DefaultItemExcludes);$(GeneratedItemPatterns)</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="wwwroot\**\*;config\**">
+     <Content Include="wwwroot\**\*" CopyToPublishDirectory="PreserveNewest" />
+
+     <None Update="config\**">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
     <None Update="config\secrets.json">
