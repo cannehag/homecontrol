@@ -76,12 +76,9 @@ namespace Site
 
          app.UseJwtBearerAuthentication(options);
 
-         app.UseMvc();
-
+         app.UseMvcWithDefaultRoute();
 
          app.UseDefaultFiles();
-
-         app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new[] { "index.html" } });
       }
    }
 
