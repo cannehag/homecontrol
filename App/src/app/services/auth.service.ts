@@ -26,8 +26,8 @@ export class AuthService {
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
-        const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-
+        //const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
+        const expiresAt = authResult.idTokenPayload.exp;
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
