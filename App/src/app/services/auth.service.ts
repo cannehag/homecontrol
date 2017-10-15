@@ -1,59 +1,38 @@
+import { Adal4Service } from 'adal-angular4';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { JwtHelper } from 'angular2-jwt';
-import * as auth0 from 'auth0-js';
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
 
-  auth0 = new auth0.WebAuth({
-    clientID: '0x2pE57rHGqPbWCvGNCyVDttKlEk2nlf',
-    domain: 'cannehag.eu.auth0.com',
-    responseType: 'token id_token',
-    audience: 'https://cannehag.eu.auth0.com/userinfo',
-    redirectUri: environment.authCallback,
-    scope: 'openid'
-  });
+  constructor(private adalService: Adal4Service) { }
 
-  constructor(private jwtHelper: JwtHelper, private router: Router) { }
-
-  login() {
-    this.auth0.authorize();
+  init() {
+    this.adalService.init(environment.adalConfig);
   }
 
-  handleAuthentication() {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        window.location.hash = '';
-        //const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-        const expiresAt = authResult.idTokenPayload.exp;
-        localStorage.setItem('access_token', authResult.accessToken);
-        localStorage.setItem('id_token', authResult.idToken);
-        localStorage.setItem('expires_at', expiresAt);
-
-        this.router.navigate(['/']);
-      } else if (err) {
-        this.router.navigate(['/']);
-        console.log(err);
-      }
-    });
+  login() {
+    this.adalService.login();
   }
 
   logout() {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-
-    this.router.navigate(['/no-access']);
+    this.adalService.logOut();
   }
 
-  getToken() {
-    return localStorage.getItem('id_token');
+  handleCallback() {
+    this.adalService.handleWindowCallback();
   }
 
-  isAuthenticated() {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return new Date().getTime() < expiresAt;
+  public get userInfo() {
+    return this.adalService.userInfo;
+  }
+
+  public get accessToken() {
+    return this.adalService.getCachedToken(environment.adalConfig.clientId);
+  }
+
+  public get isAuthenticated() {
+    return this.userInfo && this.accessToken !== null;
   }
 }

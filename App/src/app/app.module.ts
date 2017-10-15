@@ -1,21 +1,21 @@
+import { AuthenticationGuard } from './guards/authentication.guard';
+import { AuthInterceptor } from './services/auth.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Http } from '@angular/http';
+import { Adal4Service, Adal4HTTPService } from 'adal-angular4';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NoAccessComponent } from './components/no-access/no-access.component';
-import { AuthService } from "./services/auth.service";
-import { JwtHelper } from "angular2-jwt/angular2-jwt";
+import { AuthService } from './services/auth.service';
 import { GarageComponent } from './components/garage/garage.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { LoadingComponent } from './components/loading/loading.component';
-import { AuthInterceptor } from "../authInterceptor";
 
 @NgModule({
   declarations: [
     AppComponent,
-    NoAccessComponent,
     GarageComponent,
     NavBarComponent,
     LoadingComponent
@@ -26,8 +26,14 @@ import { AuthInterceptor } from "../authInterceptor";
     HttpClientModule
   ],
   providers: [
+    Adal4Service,
+    {
+      provide: Adal4HTTPService,
+      useFactory: Adal4HTTPService.factory,
+      deps: [Http, Adal4Service]
+    },
     AuthService,
-    JwtHelper,
+    AuthenticationGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true, }
   ],
   bootstrap: [AppComponent]

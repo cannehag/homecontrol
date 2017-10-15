@@ -1,5 +1,5 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'hc-nav-bar',
@@ -8,14 +8,10 @@ import { AuthService } from "../../services/auth.service";
 })
 export class NavBarComponent implements OnInit {
 
-  constructor(private auth: AuthService) { }
-
-  isAuthenticated() {
-    return this.auth.isAuthenticated();
-  }
+  constructor(private authService: AuthService) { }
 
   logout() {
-    this.auth.logout();
+    this.authService.logout();
   }
 
   ngOnInit() {

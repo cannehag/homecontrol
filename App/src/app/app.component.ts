@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { AuthService } from "./services/auth.service";
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'hc-root',
@@ -8,14 +8,11 @@ import { AuthService } from "./services/auth.service";
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  constructor(private auth: AuthService, private router: Router) {
-    auth.handleAuthentication();
+  constructor(public authService: AuthService) {
+    this.authService.init();
 
-    if (!auth.isAuthenticated()) {
-      router.navigate(['no-access']);
-      return;
-    }
+    //http://www.iconarchive.com/show/colorful-long-shadow-icons-by-graphicloads/Home-icon.html
+
+    this.authService.handleCallback();
   }
-
-  title = 'hc';
 }

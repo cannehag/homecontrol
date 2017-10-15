@@ -1,2 +1,2 @@
-<hc-nav-bar></hc-nav-bar>
-<router-outlet></router-outlet>
+<hc-nav-bar *ngIf="authService.isAuthenticated"></hc-nav-bar>
+<router-outlet *ngIf="authService.isAuthenticated"></router-outlet>

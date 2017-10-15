@@ -1,18 +1,14 @@
+import { AuthenticationGuard } from './guards/authentication.guard';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NoAccessComponent } from "./components/no-access/no-access.component";
-import { GarageComponent } from "./components/garage/garage.component";
+import { GarageComponent } from './components/garage/garage.component';
 
 const routes: Routes = [
   {
     path: '',
     component: GarageComponent,
-    children: []
-  },
-  {
-    path: 'no-access',
-    component: NoAccessComponent,
-    children: []
+    children: [],
+    canActivate: [AuthenticationGuard]
   }
 ];
 
