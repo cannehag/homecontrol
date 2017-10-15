@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Site.Models;
 
 namespace Site.Controllers
@@ -27,7 +28,7 @@ namespace Site.Controllers
             var result = await
                client.GetAsync($"https://api.particle.io/v1/devices/{_conf.Value.DeviceId}/portState?access_token={_conf.Value.AccessToken}");
 
-            var res = await result.Content.ReadAsAsync<FunctionCallResult>();
+            var res =  JsonConvert.DeserializeObject<FunctionCallResult>(await result.Content.ReadAsStringAsync());
 
             return new StatusResult
             {
