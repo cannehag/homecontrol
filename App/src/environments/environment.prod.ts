@@ -4,7 +4,7 @@ export const environment = {
     // Your target tenant.
     tenant: 'jonascannehag.onmicrosoft.com',
     // Client ID assigned to your app by Azure Active Directory.
-    clientId: '70553e96-41a2-49a1-b329-e3abf0c4b607',
+    clientId: '4032a726-53c4-47c5-bed4-b391909ce3e5',
     redirectUri: 'https://homecontrol.cannehag.se'
     /**
      *  @property {string} tenant - Your target tenant.
