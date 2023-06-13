@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Site.Models;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Site.Controllers
 {
@@ -21,6 +21,13 @@ namespace Site.Controllers
             _conf = conf;
         }
 
+        [AllowAnonymous, HttpGet, Route("test")]
+        public string Test()
+        {
+            return "testar!";
+        }
+
+
         [HttpGet, Route("status")]
         public async Task<StatusResult> Status()
         {
@@ -28,7 +35,7 @@ namespace Site.Controllers
             var result = await
                client.GetAsync($"https://api.particle.io/v1/devices/{_conf.Value.DeviceId}/portState?access_token={_conf.Value.AccessToken}");
 
-            var res =  JsonConvert.DeserializeObject<FunctionCallResult>(await result.Content.ReadAsStringAsync());
+            var res = JsonConvert.DeserializeObject<FunctionCallResult>(await result.Content.ReadAsStringAsync());
 
             return new StatusResult
             {

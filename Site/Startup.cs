@@ -1,16 +1,16 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace Site
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -46,16 +46,18 @@ namespace Site
                 p.DeviceId = Configuration.GetValue<string>("particle-device-id");
                 p.AccessToken = Configuration.GetValue<string>("particle-access-token");
             });
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
             app.UseDeveloperExceptionPage();
-
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            //loggerFactory.AddDebug();
 
             app.UseAuthentication();
             //var settings = app.ApplicationServices.GetService<IOptions<Auth0Settings>>();
