@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent" Condition="'$(Configuration)' == 'Release'">
-    <Exec Command="echo &quot;cd ..\App&quot; &amp;&amp;^&#xD;&#xA;cd ..\App &amp;&amp;^&#xD;&#xA;call npm install&#xD;&#xA;echo &quot;building App&quot; &amp;&amp;^&#xD;&#xA;call npm run-script ng build -- --output-path=$(ProjectDir)wwwroot --aot=true -prod --environment=prod &amp;&amp;^" />
+    <Exec Command="echo &quot;cd ..\App&quot; &amp;&amp;^&#xD;&#xA;cd ..\App &amp;&amp;^&#xD;&#xA;call npm install&#xD;&#xA;echo &quot;building App&quot; &amp;&amp;^&#xD;&#xA;call npm run-script ng build -- --output-path=$(ProjectDir)wwwroot --aot=true --configuration=production &amp;&amp;^" />
   </Target>
 
 </Project>
