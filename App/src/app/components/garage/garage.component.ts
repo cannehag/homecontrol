@@ -1,22 +1,23 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'hc-garage',
+  selector: 'home-garage',
   templateUrl: './garage.component.html',
-  styleUrls: ['./garage.component.less']
+  styleUrls: ['./garage.component.less'],
 })
 export class GarageComponent implements OnInit {
-  portState = "open";
+  portState = 'open';
   loading = true;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   togglePort() {
     this.loading = true;
-    this.http.put('/api/garage/toggle', {}).subscribe(_ => {
+    this.http.put('/api/garage/toggle', {}).subscribe((_) => {
       this.loading = false;
-    })
+    });
   }
 
   refresh() {
@@ -30,5 +31,4 @@ export class GarageComponent implements OnInit {
   ngOnInit() {
     this.refresh();
   }
-
 }

@@ -1,19 +1,21 @@
-import { AuthenticationGuard } from './guards/authentication.guard';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { GarageComponent } from './components/garage/garage.component';
+import { RouterModule, Routes } from '@angular/router';
+import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
   {
     path: '',
     component: GarageComponent,
     children: [],
-    canActivate: [AuthenticationGuard]
-  }
+    canActivate: [MsalGuard],
+  },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  declarations: [],
+  imports: [RouterModule.forRoot(routes), CommonModule],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

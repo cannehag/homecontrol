@@ -1,16 +1,11 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-
 export const environment = {
-  production: false,
+  production: true,
   adalConfig: {
     // Your target tenant.
     tenant: 'jonascannehag.onmicrosoft.com',
     // Client ID assigned to your app by Azure Active Directory.
     clientId: '4032a726-53c4-47c5-bed4-b391909ce3e5',
-    redirectUri: 'http://localhost:4200'
+    redirectUri: 'https://homecontrol.cannehag.se',
     /**
      *  @property {string} tenant - Your target tenant.
      *  @property {string} clientID - Client ID assigned to your app by Azure Active Directory.
@@ -26,5 +21,5 @@ export const environment = {
      *  @property {number} expireOffsetSeconds If the cached token is about to be expired in the expireOffsetSeconds (in seconds), Adal will renew the token instead of using the cached token. Defaults to 120 seconds.
      *  @property {string} correlationId Unique identifier used to map the request with the response. Defaults to RFC4122 version 4 guid (128 bits).
      */
-  }
+  },
 };

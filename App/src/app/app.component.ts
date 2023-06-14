@@ -1,18 +1,49 @@
-import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { AuthService } from './services/auth.service';
+import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import {
+  EventMessage,
+  EventType,
+  InteractionStatus,
+} from '@azure/msal-browser';
+import { filter } from 'rxjs';
 
 @Component({
-  selector: 'hc-root',
+  selector: 'home-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.less'],
 })
 export class AppComponent {
-  constructor(public authService: AuthService) {
-    this.authService.init();
+  title = 'homecontrol';
 
-    //http://www.iconarchive.com/show/colorful-long-shadow-icons-by-graphicloads/Home-icon.html
+  isAuthenticated: boolean;
 
-    this.authService.handleCallback();
+  constructor(
+    private authService: MsalService,
+    private msalBroadcastService: MsalBroadcastService
+  ) {
+    this.msalBroadcastService.msalSubject$
+      .pipe(
+        filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS)
+      )
+      .subscribe((result: EventMessage) => {
+        console.log(result);
+      });
+
+    this.msalBroadcastService.inProgress$
+      .pipe(
+        filter((status: InteractionStatus) => status === InteractionStatus.None)
+      )
+      .subscribe(() => {
+        this.setLoginDisplay();
+      });
+
+    // this.authService.loginRedirect();
+    // this.authService.init();
+    // this.authService.handleCallback();
+  }
+
+  setLoginDisplay() {
+    this.isAuthenticated =
+      this.authService.instance.getAllAccounts().length > 0;
   }
 }

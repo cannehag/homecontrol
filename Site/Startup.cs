@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Site
 {
@@ -25,19 +27,30 @@ namespace Site
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
+
             services.AddOptions();
-            services.Configure<Auth0Settings>(Configuration.GetSection("Auth0"));
+            //services.Configure<Auth0Settings>(Configuration.GetSection("Auth0"));
 
             services.AddAuthentication(options =>
                 {
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
-
                 .AddJwtBearer(options =>
                 {
+                    var events = new JwtBearerEvents();
+                    events.OnAuthenticationFailed = (ctx) =>
+                    {
+                        return Task.CompletedTask;
+                    };
+
+
                     options.Authority = $"{Configuration["AzureAd:AadInstance"]}{Configuration["AzureAd:Tenant"]}";
                     options.Audience = Configuration["AzureAd:ClientId"];
                     options.RequireHttpsMetadata = false;
+                    options.Events = events;
+                    options.TokenValidationParameters.ValidateAudience = false;
+                    options.TokenValidationParameters.ValidateIssuer = false;
                 });
 
 
@@ -83,11 +96,11 @@ namespace Site
         }
     }
 
-    public class Auth0Settings
-    {
-        public string Domain { get; set; }
-        public string ClientId { get; set; }
-    }
+    //public class Auth0Settings
+    //{
+    //    public string Domain { get; set; }
+    //    public string ClientId { get; set; }
+    //}
 
     public class ParticleConfig
     {

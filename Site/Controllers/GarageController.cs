@@ -21,13 +21,6 @@ namespace Site.Controllers
             _conf = conf;
         }
 
-        [AllowAnonymous, HttpGet, Route("test")]
-        public string Test()
-        {
-            return "testar!";
-        }
-
-
         [HttpGet, Route("status")]
         public async Task<StatusResult> Status()
         {
