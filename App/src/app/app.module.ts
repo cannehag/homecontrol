@@ -54,9 +54,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
 
-  protectedResourceMap.set('http://localhost:4200/api', [
-    'api://home.cannehag.se/api',
-  ]);
+  environment.adalConfig.protectedResources.forEach((item) => {
+    protectedResourceMap.set(item.resource, item.scopes);
+  });
 
   return {
     interactionType: InteractionType.Redirect,
