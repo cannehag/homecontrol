@@ -6,7 +6,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace Site
 {
@@ -38,17 +37,9 @@ namespace Site
                 })
                 .AddJwtBearer(options =>
                 {
-                    var events = new JwtBearerEvents();
-                    events.OnAuthenticationFailed = (ctx) =>
-                    {
-                        return Task.CompletedTask;
-                    };
-
-
                     options.Authority = $"{Configuration["AzureAd:AadInstance"]}{Configuration["AzureAd:Tenant"]}";
-                    options.Audience = Configuration["AzureAd:ClientId"];
+                    options.Audience = Configuration["api://home.cannehag.se/api"];
                     options.RequireHttpsMetadata = false;
-                    options.Events = events;
                     options.TokenValidationParameters.ValidateAudience = false;
                     options.TokenValidationParameters.ValidateIssuer = false;
                 });

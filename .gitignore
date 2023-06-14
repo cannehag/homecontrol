@@ -11,3 +11,4 @@
 /.vs
 /Site/config/secrets.json
 /Site/Properties/PublishProfiles
+/Site/config/secrets.json

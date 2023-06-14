@@ -1,21 +1,36 @@
-<div class="alert alert-sm" [ngClass]="portState=='open' ? 'alert-danger' : 'alert-success'" (click)="refresh()" style="cursor: pointer">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="pull-left" *ngIf="loading">
-        <hc-loading></hc-loading>
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <div
+      class="alert alert-sm"
+      [ngClass]="portState == 'open' ? 'alert-danger' : 'alert-success'"
+      (click)="refresh()"
+      style="cursor: pointer"
+    >
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 class="text-center">
+            <ng-container *ngIf="loading"
+              ><hc-loading></hc-loading> Hämtar...</ng-container
+            >
+            <ng-container *ngIf="portState == 'open' && !loading"
+              >Porten är öppen</ng-container
+            >
+            <ng-container *ngIf="portState == 'closed' && !loading"
+              >Garageporten är stängd</ng-container
+            >
+          </h3>
+        </div>
       </div>
+    </div>
 
-      <h3 style="margin-top: 0; margin-bottom: 0; margin-left: 40px;">
-        <span *ngIf="loading">Hämtar...</span>
-        <span *ngIf="portState=='open' && !loading">Garageporten är öppen</span>
-        <span *ngIf="portState=='closed' && !loading">Garageporten är stängd</span>
-      </h3>
+    <div style="text-align: center; margin-top: 60px">
+      <button
+        class="btn btn-success btn-lg"
+        style="height: 100px"
+        (click)="togglePort()"
+      >
+        Öppna/stäng port
+      </button>
     </div>
   </div>
-</div>
-
-<div style="text-align: center;margin-top:60px">
-  <button class="btn btn-info btn-lg col-sm-12" (click)="togglePort()">
-      Öppna/stäng port
-   </button>
 </div>

@@ -19,6 +19,10 @@
      <None Update="config\**">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
+
+     <Content Update="config\secrets.json">
+       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+     </Content>
     <None Update="config\secrets.json">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
