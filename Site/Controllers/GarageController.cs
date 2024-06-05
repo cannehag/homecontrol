@@ -42,9 +42,6 @@ namespace Site.Controllers
         [HttpPut, HttpGet, Route("toggle"), AllowAnonymous, ApiKey]
         public async Task<ToggleResult> TogglePort()
         {
-            if (!HttpContext.User.Identity.IsAuthenticated)
-                return new ToggleResult { Result = false };
-
             var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
 
             var arg = new KeyValuePair<string, string>("args", "togglePort");
