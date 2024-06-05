@@ -36,7 +36,7 @@ namespace Site.Controllers
             };
         }
 
-        [HttpPut, Route("toggle")]
+        [HttpPut, HttpGet, Route("toggle"), AllowAnonymous]
         public async Task<ToggleResult> TogglePort()
         {
             var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };

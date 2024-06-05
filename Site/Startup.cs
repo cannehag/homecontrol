@@ -1,14 +1,51 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 using System.IO;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace Site
 {
+    public class ApiKeyMiddleware
+    {
+        public ApiKeyMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        private const string _apikey = "ApiKey";
+        private RequestDelegate _next;
+
+        public async Task InvokeAsync(HttpContext context)
+        {
+            var authHash = context.Request.Query["hash"];
+
+            if (!string.IsNullOrEmpty(authHash))
+            {
+                if (authHash != "5f91d8a557f42172732707c9a9e77264")
+                {
+                    context.Response.StatusCode = 401;
+                    await context.Response.WriteAsync("Unauthorized client");
+                    return;
+                }
+
+                var identity = new GenericIdentity("apikey", "system");
+                identity.AddClaim(new Claim(ClaimTypes.Name, "Jonas"));
+                identity.AddClaim(new Claim(ClaimTypes.Email, "jonas@cannehag.se"));
+                context.User = new ClaimsPrincipal(identity);
+            }
+
+            await _next(context);
+        }
+    }
+
     public class Startup
     {
         public Startup(IHostEnvironment env)
@@ -59,6 +96,8 @@ namespace Site
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
+
+            app.UseMiddleware<ApiKeyMiddleware>();
             app.UseDeveloperExceptionPage();
             //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             //loggerFactory.AddDebug();
