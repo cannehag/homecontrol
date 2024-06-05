@@ -103,6 +103,7 @@ namespace Site
             //loggerFactory.AddDebug();
 
             app.UseAuthentication();
+            app.UseAuthorization();
             //var settings = app.ApplicationServices.GetService<IOptions<Auth0Settings>>();
 
             app.Use(async (context, next) =>
