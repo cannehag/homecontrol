@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Site.Controllers
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
+    [Authorize]
     [Route("api/garage")]
     public class GarageController : Controller
     {
@@ -39,7 +39,7 @@ namespace Site.Controllers
             };
         }
 
-        [HttpPut, HttpGet, Route("toggle"), AllowAnonymous, ApiKey]
+        [HttpPut, HttpGet, Route("toggle")]
         public async Task<ToggleResult> TogglePort()
         {
             var client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
@@ -47,7 +47,7 @@ namespace Site.Controllers
             var arg = new KeyValuePair<string, string>("args", "togglePort");
             var result = await
                client.PostAsync($"https://api.particle.io/v1/devices/{_conf.Value.DeviceId}/functions?access_token={_conf.Value.AccessToken}", new FormUrlEncodedContent(new[] { arg }));
-            return new ToggleResult { Result = true };
+            return new ToggleResult { Result = true, Text = "Jag fixar det" };
         }
     }
 
@@ -59,39 +59,12 @@ namespace Site.Controllers
     public class ToggleResult
     {
         public Boolean Result { get; set; }
+        public string Text { get; set; }
     }
 
     public enum State
     {
         Open,
         Closed
-    }
-}
-
-public class ApiKeyAttribute : ServiceFilterAttribute
-{
-    public ApiKeyAttribute()
-        : base(typeof(ApiKeyAuthFilter))
-    {
-    }
-}
-
-public class ApiKeyAuthFilter : IAuthorizationFilter
-{
-    public ApiKeyAuthFilter()
-    {
-    }
-    public void OnAuthorization(AuthorizationFilterContext context)
-    {
-        if (context.HttpContext.User.Identity.IsAuthenticated) return;
-
-        string userApiKey = context.HttpContext.Request.Query["hash"].ToString();
-        if (string.IsNullOrWhiteSpace(userApiKey))
-        {
-            context.Result = new BadRequestResult();
-            return;
-        }
-        if (userApiKey != "5f91d8a557f42172732707c9a9e77264")
-            context.Result = new UnauthorizedResult();
     }
 }

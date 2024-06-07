@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -66,13 +67,9 @@ namespace Site
             IdentityModelEventSource.ShowPII = true;
 
             services.AddOptions();
-            services.AddTransient<ApiKeyAuthFilter>();
             //services.Configure<Auth0Settings>(Configuration.GetSection("Auth0"));
 
-            services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
+            services.AddAuthentication()
                 .AddJwtBearer(options =>
                 {
                     options.Authority = $"{Configuration["AzureAd:AadInstance"]}{Configuration["AzureAd:Tenant"]}";
@@ -80,6 +77,11 @@ namespace Site
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters.ValidateAudience = false;
                     options.TokenValidationParameters.ValidateIssuer = false;
+                })
+                .AddScheme<QueryStringAuthOptions, QueryStringAuth>(QueryStringAuthDefaults.SchemaName, opt =>
+                {
+                    opt.QueryStringKey = "hash";
+                    opt.AddDevice("Jonas iPhone");
                 });
 
 
@@ -104,7 +106,7 @@ namespace Site
             //loggerFactory.AddDebug();
 
             app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthorization();
             //var settings = app.ApplicationServices.GetService<IOptions<Auth0Settings>>();
 
             app.Use(async (context, next) =>
