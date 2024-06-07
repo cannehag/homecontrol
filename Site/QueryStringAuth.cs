@@ -47,7 +47,7 @@ namespace Site
         {
         }
 
-        protected string ParseApiKey()
+        protected string ParseQueryString()
         {
             if (Request.Query.TryGetValue(Options.QueryStringKey, out var value))
                 return value.FirstOrDefault();
@@ -71,9 +71,9 @@ namespace Site
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var queryStringHash = ParseApiKey(); // handles parsing QueryString
+            var queryStringHash = ParseQueryString();
 
-            if (string.IsNullOrEmpty(queryStringHash)) //no key was provided - return NoResult
+            if (string.IsNullOrEmpty(queryStringHash))
                 return Task.FromResult(AuthenticateResult.NoResult());
 
             var match = Options.Devices.FirstOrDefault(d => d.Value == queryStringHash);

@@ -14,38 +14,6 @@ using System.Threading.Tasks;
 
 namespace Site
 {
-    //public class ApiKeyMiddleware
-    //{
-    //    public ApiKeyMiddleware(RequestDelegate next)
-    //    {
-    //        _next = next;
-    //    }
-
-    //    private const string _apikey = "ApiKey";
-    //    private RequestDelegate _next;
-
-    //    public async Task InvokeAsync(HttpContext context)
-    //    {
-    //        var authHash = context.Request.Query["hash"];
-
-    //        if (!string.IsNullOrEmpty(authHash))
-    //        {
-    //            if (authHash != "5f91d8a557f42172732707c9a9e77264")
-    //            {
-    //                context.Response.StatusCode = 401;
-    //                await context.Response.WriteAsync("Unauthorized client");
-    //                return;
-    //            }
-
-    //            var identity = new GenericIdentity("apikey", "system");
-    //            identity.AddClaim(new Claim(ClaimTypes.Name, "Jonas"));
-    //            identity.AddClaim(new Claim(ClaimTypes.Email, "jonas@cannehag.se"));
-    //            context.User = new ClaimsPrincipal(identity);
-    //        }
-
-    //        await _next(context);
-    //    }
-    //}
 
     public class Startup
     {
@@ -67,7 +35,6 @@ namespace Site
             IdentityModelEventSource.ShowPII = true;
 
             services.AddOptions();
-            //services.Configure<Auth0Settings>(Configuration.GetSection("Auth0"));
 
             services.AddAuthentication(QueryStringAuthDefaults.SchemaName)
                 .AddJwtBearer(options =>
@@ -99,28 +66,22 @@ namespace Site
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostEnvironment env, ILoggerFactory loggerFactory)
         {
-
-            //app.UseMiddleware<ApiKeyMiddleware>();
             app.UseDeveloperExceptionPage();
-            //loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
 
             app.UseAuthentication();
-            //app.UseAuthorization();
-            //var settings = app.ApplicationServices.GetService<IOptions<Auth0Settings>>();
 
             app.Use(async (context, next) =>
-          {
-              await next();
+            {
+                await next();
 
-              if (context.Response.StatusCode == 404 &&
-                  !Path.HasExtension(context.Request.Path.Value) &&
-                  !context.Request.Path.Value.StartsWith("/api/"))
-              {
-                  context.Request.Path = "/index.html";
-                  await next();
-              }
-          });
+                if (context.Response.StatusCode == 404 &&
+                    !Path.HasExtension(context.Request.Path.Value) &&
+                    !context.Request.Path.Value.StartsWith("/api/"))
+                {
+                    context.Request.Path = "/index.html";
+                    await next();
+                }
+            });
 
             app.UseMvcWithDefaultRoute();
 
@@ -129,12 +90,6 @@ namespace Site
 
         }
     }
-
-    //public class Auth0Settings
-    //{
-    //    public string Domain { get; set; }
-    //    public string ClientId { get; set; }
-    //}
 
     public class ParticleConfig
     {
