@@ -69,7 +69,7 @@ namespace Site
             services.AddOptions();
             //services.Configure<Auth0Settings>(Configuration.GetSection("Auth0"));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication(QueryStringAuthDefaults.SchemaName)
                 .AddJwtBearer(options =>
                 {
                     options.Authority = $"{Configuration["AzureAd:AadInstance"]}{Configuration["AzureAd:Tenant"]}";

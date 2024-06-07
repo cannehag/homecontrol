@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Site.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "Bearer,QueryAuth")]
     [Route("api/garage")]
     public class GarageController : Controller
     {
