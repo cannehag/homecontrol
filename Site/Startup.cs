@@ -49,6 +49,8 @@ namespace Site
                 {
                     opt.QueryStringKey = "hash";
                     opt.AddDevice("Jonas iPhone");
+                    opt.AddDevice("Ronjas iPhone");
+                    opt.AddDevice("Caspers iPhone");
                 });
 
 
