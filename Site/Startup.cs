@@ -51,6 +51,7 @@ namespace Site
                     opt.AddDevice("Jonas iPhone");
                     opt.AddDevice("Ronjas iPhone");
                     opt.AddDevice("Caspers iPhone");
+                    opt.AddDevice("Jojjos iPhone");
                 });
 
 
