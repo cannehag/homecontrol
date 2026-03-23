@@ -19,6 +19,18 @@ namespace Site.Controllers
     {
         private readonly IOptions<ParticleConfig> _conf;
 
+        private static Random _rnd = new Random();
+
+        private static List<string> _responses = new List<string>{
+            "Jag fixar det",
+            "Varsågod",
+            "Se det som åtgärdat",
+            "Du är grym",
+            "Whiihoo",
+            "Yes chefen!",
+            "Om du säger det så"
+        };
+
         public GarageController(IOptions<ParticleConfig> conf)
         {
             _conf = conf;
@@ -47,7 +59,9 @@ namespace Site.Controllers
             var arg = new KeyValuePair<string, string>("args", "togglePort");
             var result = await
                client.PostAsync($"https://api.particle.io/v1/devices/{_conf.Value.DeviceId}/functions?access_token={_conf.Value.AccessToken}", new FormUrlEncodedContent(new[] { arg }));
-            return new ToggleResult { Result = true, Text = "Jag fixar det" };
+
+
+            return new ToggleResult { Result = true, Text = _responses[_rnd.Next(_responses.Count - 1)] };
         }
     }
 
