@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Site
@@ -9,11 +10,14 @@ namespace Site
     {
         public static void Main(string[] args)
         {
-            var host = WebHost.CreateDefaultBuilder()
-                .UseStartup<Startup>()
-                .Build();
+            CreateHostBuilder(args).Build().Run();
+        }
 
-            host.Run();
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+               .ConfigureAppConfiguration(configuration => { configuration.AddJsonFile("appsettings.json", true); })
+               .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         }
     }
 }
