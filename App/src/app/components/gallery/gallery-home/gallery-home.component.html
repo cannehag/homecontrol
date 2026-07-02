@@ -7,10 +7,8 @@
   </div>
 
   <div
-    class="alert d-flex justify-content-between align-items-center gallery-auth-status"
-    [class.alert-warning]="!connected || (authExpiresInDays !== null && authExpiresInDays <= 5)"
-    [class.alert-light]="connected && authExpiresInDays !== null && authExpiresInDays > 5"
-    *ngIf="!connected || authExpiresInDays !== null"
+    class="alert alert-warning d-flex justify-content-between align-items-center gallery-auth-status"
+    *ngIf="!connected || (authExpiresInDays !== null && authExpiresInDays <= 5)"
   >
     <span *ngIf="connected">Lightroom-inloggning giltig i {{ authExpiresInDays }} dagar</span>
     <span *ngIf="!connected">Lightroom är inte anslutet ännu</span>

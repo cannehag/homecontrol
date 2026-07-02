@@ -43,9 +43,15 @@ export interface AlbumImage {
   metadata: PhotoMetadata;
 }
 
+export interface BreadcrumbItem {
+  id: string;
+  name: string;
+}
+
 export interface AlbumDetail {
   albumId: string;
   albumName: string;
+  breadcrumbs: BreadcrumbItem[];
   images: AlbumImage[];
 }
 

@@ -34,7 +34,19 @@ namespace Site.Models.Gallery
 
         public string AlbumName { get; set; }
 
+        // Ancestor folders, root first, for rendering a breadcrumb trail back to the
+        // gallery home instead of a plain "back" button - lets you jump to any
+        // ancestor directly when nested several folders deep.
+        public List<BreadcrumbItemDto> Breadcrumbs { get; set; } = new();
+
         public List<AlbumImageDto> Images { get; set; } = new();
+    }
+
+    public class BreadcrumbItemDto
+    {
+        public string Id { get; set; }
+
+        public string Name { get; set; }
     }
 
     public class AlbumImageDto

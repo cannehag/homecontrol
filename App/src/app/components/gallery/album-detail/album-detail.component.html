@@ -1,8 +1,15 @@
 <div class="container mt-4" *ngIf="!loading; else loadingTpl">
-  <button type="button" class="btn btn-sm btn-outline-secondary album-back-btn mb-3" (click)="goBack()">
-    <span class="material-icons">arrow_back</span>
-    Tillbaka
-  </button>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a routerLink="/gallery">Galleri</a>
+      </li>
+      <li class="breadcrumb-item" *ngFor="let crumb of album?.breadcrumbs">
+        <a [routerLink]="['/gallery/folder', crumb.id]">{{ crumb.name }}</a>
+      </li>
+      <li class="breadcrumb-item active">{{ album?.albumName }}</li>
+    </ol>
+  </nav>
 
   <h4>{{ album?.albumName }}</h4>
 

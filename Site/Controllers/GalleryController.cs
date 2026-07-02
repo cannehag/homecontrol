@@ -144,6 +144,7 @@ namespace Site.Controllers
             {
                 AlbumId = album.Id,
                 AlbumName = album.Payload.Name,
+                Breadcrumbs = BuildBreadcrumbs(albums, album),
                 Images = assets
                     .Where(a => a.Asset?.Subtype == "image" && !IsRejected(a.Asset))
                     .Select(a => ToImageDto(a.Asset))
@@ -247,6 +248,22 @@ namespace Site.Controllers
 
             node.ImageCount = node.Children.Sum(ComputeFolderImageCount);
             return node.ImageCount;
+        }
+
+        private static List<BreadcrumbItemDto> BuildBreadcrumbs(List<LightroomAlbum> albums, LightroomAlbum album)
+        {
+            var byId = albums.ToDictionary(a => a.Id);
+            var chain = new List<BreadcrumbItemDto>();
+            var parentId = album.Payload.Parent?.Id;
+
+            while (parentId != null && byId.TryGetValue(parentId, out var parent))
+            {
+                chain.Add(new BreadcrumbItemDto { Id = parent.Id, Name = parent.Payload.Name });
+                parentId = parent.Payload.Parent?.Id;
+            }
+
+            chain.Reverse();
+            return chain;
         }
 
         // The Lightroom API doesn't report an album's asset count anywhere short of

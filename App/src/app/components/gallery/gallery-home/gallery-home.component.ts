@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryService, GalleryTreeNode } from '../gallery.service';
 
 @Component({
@@ -17,13 +17,20 @@ export class GalleryHomeComponent implements OnInit {
   authExpiresInDays: number | null = null;
   reauthResult: 'success' | 'error' | null = null;
 
-  constructor(private galleryService: GalleryService, private route: ActivatedRoute) {}
+  constructor(
+    private galleryService: GalleryService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe((params) => {
-      const reauth = params.get('reauth');
-      this.reauthResult = reauth === 'success' || reauth === 'error' ? reauth : null;
-    });
+    const reauth = this.route.snapshot.queryParamMap.get('reauth');
+    if (reauth === 'success' || reauth === 'error') {
+      this.reauthResult = reauth;
+      // Strip ?reauth=... from the URL so refreshing/revisiting doesn't keep
+      // showing the one-time confirmation message.
+      this.router.navigate([], { relativeTo: this.route, queryParams: {}, replaceUrl: true });
+    }
 
     this.galleryService.getStatus().subscribe((status) => {
       this.connected = status.connected;

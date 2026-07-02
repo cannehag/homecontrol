@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
@@ -15,15 +14,7 @@ export class AlbumDetailComponent implements OnInit, OnDestroy {
 
   private lightbox: PhotoSwipeLightbox | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private location: Location,
-    private galleryService: GalleryService
-  ) {}
-
-  goBack() {
-    this.location.back();
-  }
+  constructor(private route: ActivatedRoute, private galleryService: GalleryService) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
