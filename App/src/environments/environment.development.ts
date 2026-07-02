@@ -10,7 +10,7 @@ export const environment = {
     tenant: 'jonascannehag.onmicrosoft.com',
     // Client ID assigned to your app by Azure Active Directory.
     clientId: '4032a726-53c4-47c5-bed4-b391909ce3e5',
-    redirectUri: 'http://localhost:4200',
+    redirectUri: 'https://localhost:4200',
     protectedResources: [
       {
         resource: 'https://localhost:4200/api',

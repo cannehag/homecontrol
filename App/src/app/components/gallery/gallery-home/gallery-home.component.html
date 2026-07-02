@@ -1,0 +1,75 @@
+<div class="container mt-4" *ngIf="!loading; else loadingTpl">
+  <div class="alert alert-success" *ngIf="reauthResult === 'success'">
+    Lightroom-inloggningen har förnyats.
+  </div>
+  <div class="alert alert-danger" *ngIf="reauthResult === 'error'">
+    Det gick inte att förnya Lightroom-inloggningen. Försök igen.
+  </div>
+
+  <div
+    class="alert d-flex justify-content-between align-items-center gallery-auth-status"
+    [class.alert-warning]="!connected || (authExpiresInDays !== null && authExpiresInDays <= 5)"
+    [class.alert-light]="connected && authExpiresInDays !== null && authExpiresInDays > 5"
+    *ngIf="!connected || authExpiresInDays !== null"
+  >
+    <span *ngIf="connected">Lightroom-inloggning giltig i {{ authExpiresInDays }} dagar</span>
+    <span *ngIf="!connected">Lightroom är inte anslutet ännu</span>
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="renewLightroomLogin()">
+      {{ connected ? 'Förnya nu' : 'Anslut Lightroom' }}
+    </button>
+  </div>
+
+  <ng-container *ngIf="connected">
+    <nav aria-label="breadcrumb" *ngIf="breadcrumbs.length">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a routerLink="/gallery">Galleri</a>
+        </li>
+        <li
+          class="breadcrumb-item"
+          *ngFor="let crumb of breadcrumbs; let last = last"
+          [class.active]="last"
+        >
+          <a *ngIf="!last" [routerLink]="['/gallery/folder', crumb.id]">{{ crumb.name }}</a>
+          <ng-container *ngIf="last">{{ crumb.name }}</ng-container>
+        </li>
+      </ol>
+    </nav>
+
+    <div class="row g-3">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let node of currentChildren">
+        <a
+          class="gallery-card d-block text-decoration-none"
+          [routerLink]="node.type === 'folder' ? ['/gallery/folder', node.id] : ['/gallery/album', node.id]"
+        >
+          <div
+            class="gallery-card-image"
+            [style.backgroundImage]="node.coverUrl ? 'url(' + node.coverUrl + ')' : null"
+          >
+            <span class="material-icons gallery-card-placeholder" *ngIf="!node.coverUrl">{{
+              node.type === 'folder' ? 'folder' : 'photo_library'
+            }}</span>
+
+            <span class="material-icons gallery-card-type-badge" *ngIf="node.type === 'folder'">folder</span>
+
+            <div class="gallery-card-overlay">
+              <div class="gallery-card-name">{{ node.name }}</div>
+              <div class="gallery-card-count" *ngIf="node.imageCount">
+                <span class="material-icons">photo_library</span>{{ node.imageCount }}
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <p *ngIf="!currentChildren.length" class="text-muted mt-4">Inga album här.</p>
+  </ng-container>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="mt-4 d-flex flex-column align-items-center">
+    <hc-loading></hc-loading>
+    <span class="mt-2">Hämtar galleri...</span>
+  </div>
+</ng-template>

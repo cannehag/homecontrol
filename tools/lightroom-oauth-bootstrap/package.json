@@ -1,0 +1,9 @@
+{
+  "name": "lightroom-oauth-bootstrap",
+  "private": true,
+  "type": "module",
+  "description": "One-time script to obtain a Lightroom API refresh token. Not part of the deployed app.",
+  "scripts": {
+    "start": "node index.mjs"
+  }
+}

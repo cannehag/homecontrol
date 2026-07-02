@@ -8,7 +8,12 @@ const routes: Routes = [
   {
     path: '',
     component: GarageComponent,
-    children: [],
+    pathMatch: 'full',
+    canActivate: [MsalGuard],
+  },
+  {
+    path: 'gallery',
+    loadChildren: () => import('./components/gallery/gallery.module').then((m) => m.GalleryModule),
     canActivate: [MsalGuard],
   },
 ];

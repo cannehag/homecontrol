@@ -1,0 +1,28 @@
+.album-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+
+  .material-icons {
+    font-size: 18px;
+  }
+}
+
+#album-grid img {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  width: 100%;
+}
+
+::ng-deep .pswp__custom-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 10px 16px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 0.85rem;
+  white-space: pre-line;
+  z-index: 1000;
+}

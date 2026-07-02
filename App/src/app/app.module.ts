@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { GarageComponent } from './components/garage/garage.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { LoadingComponent } from './components/loading/loading.component';
+import { SharedModule } from './shared/shared.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {
   MSAL_GUARD_CONFIG,
@@ -17,6 +17,7 @@ import {
   MsalInterceptor,
   MsalInterceptorConfiguration,
   MsalModule,
+  MsalRedirectComponent,
   MsalService,
 } from '@azure/msal-angular';
 import {
@@ -72,9 +73,8 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     AppComponent,
     GarageComponent,
     NavBarComponent,
-    LoadingComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, MsalModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, MsalModule, SharedModule],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {
@@ -98,6 +98,6 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     MsalGuard,
     MsalBroadcastService,
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

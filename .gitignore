@@ -12,3 +12,4 @@
 /Site/config/secrets.json
 /Site/Properties/PublishProfiles
 /Site/config/secrets.json
+/Site/config/lightroom-refresh-token-override.txt

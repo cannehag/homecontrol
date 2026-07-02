@@ -1,4 +1,4 @@
+<home-nav-bar *ngIf="isAuthenticated"></home-nav-bar>
 <div class="container-fluid">
-  <home-nav-bar *ngIf="isAuthenticated"></home-nav-bar>
   <router-outlet *ngIf="isAuthenticated"></router-outlet>
 </div>

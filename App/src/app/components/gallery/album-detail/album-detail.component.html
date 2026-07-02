@@ -1,0 +1,35 @@
+<div class="container mt-4" *ngIf="!loading; else loadingTpl">
+  <button type="button" class="btn btn-sm btn-outline-secondary album-back-btn mb-3" (click)="goBack()">
+    <span class="material-icons">arrow_back</span>
+    Tillbaka
+  </button>
+
+  <h4>{{ album?.albumName }}</h4>
+
+  <div class="row g-2" id="album-grid">
+    <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let image of album?.images">
+      <a
+        [href]="image.fullUrl"
+        [attr.data-pswp-width]="image.width"
+        [attr.data-pswp-height]="image.height"
+        [attr.data-caption]="captionFor(image)"
+      >
+        <img
+          [src]="image.thumbnailUrl"
+          class="img-fluid rounded"
+          [alt]="image.metadata.fileName || album?.albumName"
+          loading="lazy"
+        />
+      </a>
+    </div>
+  </div>
+
+  <p *ngIf="!album?.images?.length" class="text-muted mt-4">Inga bilder i det här albumet.</p>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="mt-4 d-flex flex-column align-items-center">
+    <hc-loading></hc-loading>
+    <span class="mt-2">Hämtar album...</span>
+  </div>
+</ng-template>

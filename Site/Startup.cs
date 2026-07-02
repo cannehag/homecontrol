@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
+using Site.Controllers;
+using Site.Services.Lightroom;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Claims;
@@ -60,6 +64,33 @@ namespace Site
                 p.DeviceId = Configuration.GetValue<string>("particle-device-id");
                 p.AccessToken = Configuration.GetValue<string>("particle-access-token");
             });
+
+            services.Configure<LightroomConfig>(l =>
+            {
+                l.ClientId = Configuration["Lightroom:ClientId"];
+                l.ClientSecret = Configuration.GetValue<string>("lightroom-client-secret");
+            });
+            services.Configure<GalleryConfig>(config =>
+            {
+                Configuration.GetSection("Gallery").Bind(config);
+                config.ImageTokenSecret = Configuration.GetValue<string>("gallery-image-token-secret");
+            });
+
+            services.AddSingleton<LightroomRefreshTokenStore>();
+            services.AddSingleton<LightroomTokenService>();
+            services.AddHttpClient(nameof(LightroomTokenService));
+            services.AddHttpClient<LightroomApiClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://lr.adobe.io/v2/");
+            });
+            services.AddMemoryCache(options =>
+            {
+                // Rendition bytes are the only entries with a real Size set (in bytes);
+                // small JSON entries (tree/album lists) count as 1 each and are
+                // negligible against this budget.
+                options.SizeLimit = 200 * 1024 * 1024;
+            });
+
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
@@ -82,6 +113,7 @@ namespace Site
                     !context.Request.Path.Value.StartsWith("/api/"))
                 {
                     context.Request.Path = "/index.html";
+                    context.Response.StatusCode = 200;
                     await next();
                 }
             });
